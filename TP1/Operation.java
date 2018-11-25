@@ -16,7 +16,7 @@ public class Operation extends Thread {
 						dans la methode suffit par contre avec ajout et retirer ca suffit pas */
 			this.compte.retirer(i); 
 			//this.compte.operationNulle(i); dans ce cas pas la peine de la mettre en synchronized ni get solde d'ailleurs si on enlève synchronized(compte) il faudrait
-			// rajouter rajouter synchronized dans les signatures de operationNulle et get solde
+			// rajouter synchronized dans les signatures de operationNulle et get solde
 			int montant=this.compte.getSolde(); 
 			
 			if (montant !=0){

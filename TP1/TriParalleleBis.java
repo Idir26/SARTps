@@ -1,9 +1,10 @@
-public class TriParallele extends Thread{
+public class TriParalleleBis extends Thread{
 	private int[] t;
 	private int debut;
 	private int fin;
+	private int cptNotif = 0;
 
-	private TriParallele(int[] t, int debut, int fin){
+	private TriParalleleBis(int[] t, int debut, int fin){
 		this.t=t;
 		this.debut = debut;
 		this.fin = fin;
@@ -22,15 +23,8 @@ public class TriParallele extends Thread{
 			}
 		} else{
 			int milieu=debut + (fin-debut)/2;
-			TriParallele t1 = new TriParallele(t, debut, milieu);
-			t1.start();
-			TriParallele t2 = new TriParallele(t, milieu+1, fin);
-			t2.start();
-			try {
-				t1.join();
-				t2.join();
-			}
-			catch(InterruptedException exec){}
+			TriParalleleBis t1 = new TriParalleleBis(t, debut, milieu);
+			TriParalleleBis t2 = new TriParalleleBis(t, milieu+1, fin);
 			trifusion(debut,fin);
 		}
 	}
@@ -64,7 +58,7 @@ public class TriParallele extends Thread{
 		}
 	public static void main(String[] args){
 		int[] tableau={5,8,3,2,7,10,1,12,4};
-		TriParallele t = new TriParallele(tableau, 0, tableau.length-1);
+		TriParalleleBis t = new TriParalleleBis(tableau, 0, tableau.length-1);
 		t.start();
 		try{
 			t.join();
