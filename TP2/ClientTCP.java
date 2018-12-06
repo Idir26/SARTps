@@ -26,8 +26,9 @@ public class ClientTCP{
 			out = new PrintWriter(sc.getOutputStream(),true);
 			
 			String m = "Bonjour";
-			//System.out.println("Client dit "+m);
-			out.println(m);
+			for(int i =0; i<10; i++){
+			out.println(m + i);
+			}
 			String entree = in.readLine();
 			System.out.println("Serveur dit "+entree);
 			

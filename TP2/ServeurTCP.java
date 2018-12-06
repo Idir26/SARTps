@@ -16,12 +16,15 @@ public class ServeurTCP{
 		in = new BufferedReader(new InputStreamReader(ssv.getInputStream()));
 		out = new PrintWriter(ssv.getOutputStream(),true);  
 
+		for(int i =0; i<10; i++){
 		String req = in.readLine();
 		System.out.println("Le client me dit :" + req);
 		
+		
 		String m = "Bienvenu";
+		
 		out.println(m);
-		       
+		}       
 	}
 	catch (IOException e){
 		System.err.println("Erreur : " +e);
