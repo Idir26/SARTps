@@ -1,57 +1,67 @@
-import java.io.*;
 import java.net.*;
- 
-public class ThreadClient {
-     
-    public static void main (String[] args) {
-        int port = 4020;
-        InetAddress hote;
-        Socket sc = null;
-        BufferedReader in; 
-        PrintWriter out; 
-        int compteur = 0;
-         
-        try {
-            if (args.length>=2) {
-                hote = InetAddress.getByName(args[0]);
-                port = Integer.parseInt(args[1]);
-            }
-            else {
-                hote = InetAddress.getLocalHost();
-            }
-        }
-        catch(UnknownHostException e){
-            System.err.println("Machine inconnue :" +e);
-        }
- 
-        try{
-            sc = new Socket(hote,port);
-            System.out.println("Socket cree");
-            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
-            out = new PrintWriter(sc.getOutputStream(), true);
-         
-            for(int i=0; i<10; i++) {
-                String reception = in.readLine();
-                System.out.println("Serveur : "+reception);
-                compteur++;
-                String str = "Je suis le client "+InetAddress.getLocalHost()+ ", j'ai fait 			"+compteur+" appels.";
-                out.println(str);
-                System.out.println("Client : " +str);
-                Thread.sleep(2000);
-            }
-            out.println("Bye");
-            System.out.println("Client : Bye");
-        }
-        catch(Exception e){
-            System.err.println("Impossible de creer la socket du client : "+e);
-        }
-        finally{
-            try{
-                sc.close();
-                in.close();
-                out.close();
-            }
-            catch (IOException e){}
-        }
-    }
-}
+import java.io.*;	
+	public class ThreadClient extends Thread{
+			
+			Socket ssv=null;
+			PrintWriter out;
+			BufferedReader in;
+
+		public ThreadClient(Socket ssv){ this.ssv = ssv;}
+
+		public void run() {
+			try{
+
+			in = new BufferedReader(new InputStreamReader(ssv.getInputStream()));
+			out = new PrintWriter(ssv.getOutputStream(), true); 
+	
+			String req;
+
+			String rep ="Le serveur est à l'écoute";
+			out.println(rep);
+			
+			while(true){
+				req = in.readLine();
+		        	System.out.println("Le client me dit :"+req);
+				if(req.equals("") || req.equals("bye")){
+					break;
+				}
+				try {
+				sleep(2000);
+				}
+				catch(InterruptedException e) {
+				System.err.println("Erreur : " +e);
+				}
+				
+				rep = "Bienvenu sur ce serveur";
+				out.println(rep);
+			}
+
+			System.out.println("Connexion interrompue");
+		}
+
+
+		catch (IOException e){
+		System.err.println("Erreur : " +e);
+		}
+
+		finally{
+			try{
+				ssv.close();
+			}
+			catch (IOException e){}
+			}
+		}
+	}
+		
+
+
+
+			
+
+
+
+
+
+
+
+	
